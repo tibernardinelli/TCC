@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.Random;
 
-import br.com.bernardinelli.ann.model.Tuple;
+import br.com.bernardinelli.ann.model.Example;
 
 public class ANN {
 
@@ -63,11 +63,11 @@ public class ANN {
 		}
 	}
 
-	public void trainCollection(Collection<Tuple> tuplas) {
+	public void trainCollection(Collection<Example> tuplas) {
 		int acertos = 0;
 		do {
 			acertos = 0;
-			for (Tuple tupla : tuplas) {
+			for (Example tupla : tuplas) {
 
 				double[] desiredOutput = getDesiredOutput(tupla);
 				double[] output = execute(tupla);
@@ -89,7 +89,7 @@ public class ANN {
 		} while (acertos / tuplas.size() < 90);
 	}
 
-	private double[] getDesiredOutput(Tuple tupla) {
+	private double[] getDesiredOutput(Example tupla) {
 		double []saidaEsperada = new double[possibleResults.size()];
 		
 		for (int i = 0; i<saidaEsperada.length; i++){
@@ -101,7 +101,7 @@ public class ANN {
 		return saidaEsperada;
 	}
 
-	private double[] execute(Tuple tupla) {
+	private double[] execute(Example tupla) {
 		Double[] somaPonderadaCamadaOculta = new Double[hiddenLayerWeight
 				.keySet().size()];
 		Double[] outputCamadaOculta = new Double[somaPonderadaCamadaOculta.length];
@@ -128,7 +128,7 @@ public class ANN {
 		return saida;
 	}
 	
-	public String executa(Tuple tupla){
+	public String executa(Example tupla){
 		double[] output = execute(tupla);
 		int higher = 0;
 		for (int i = higher; i < output.length; i++) {

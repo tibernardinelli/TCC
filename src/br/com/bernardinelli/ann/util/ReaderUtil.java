@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import br.com.bernardinelli.ann.model.Tuple;
+import br.com.bernardinelli.ann.model.Example;
 
 public abstract class ReaderUtil {
 
-	public static List<Tuple> readTupleFromFile(Path path)
+	public static List<Example> readTupleFromFile(Path path)
 			throws IOException {
 		Stream<String> in = Files.lines(path);
 		try {
@@ -27,7 +27,7 @@ public abstract class ReaderUtil {
 						for (int i = 0; i < args; i++) {
 							params[i] = Double.parseDouble(innerSplitedLine[i]);
 						}
-						return Tuple.parseTuple(
+						return Example.parseTuple(
 								innerSplitedLine[innerSplitedLine.length - 1],
 								params);
 

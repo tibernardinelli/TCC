@@ -2,11 +2,11 @@ package br.com.bernardinelli.ann.input;
 import java.util.List;
 
 import br.com.bernardinelli.ann.model.Data;
-import br.com.bernardinelli.ann.model.Tuple;
+import br.com.bernardinelli.ann.model.Example;
 
 public abstract class DataFactory {
 
-	public static Data transform(List<Tuple> tuplas){
+	public static Data transform(List<Example> tuplas){
 		
 		int propertyNum = tuplas.get(0).getPropertiesNumber();
 		

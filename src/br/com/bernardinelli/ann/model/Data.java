@@ -13,7 +13,7 @@ public class Data {
 
 	private Map<Integer, Collection<Double>> dataByProperties;
 	private Map<Integer, Double> dataSumarized;
-	private List<Tuple> tuples;
+	private List<Example> tuples;
 	private Set<String> possibleResults;
 
 	public Data(int argumentNumber) {
@@ -24,14 +24,14 @@ public class Data {
 			dataByProperties.put(i, new ArrayList<Double>());
 			dataSumarized.put(i, 0d);
 		}
-		tuples = new ArrayList<Tuple>();
+		tuples = new ArrayList<Example>();
 	}
 
 	public void add(String label, double... params) {
-		add(new Tuple(label, params));
+		add(new Example(label, params));
 	}
 
-	public void add(Tuple tupla) {
+	public void add(Example tupla) {
 		if (tupla == null) {
 			return;
 		}
@@ -45,11 +45,12 @@ public class Data {
 	
 
 	public void standardize() {
+		//Deixar os dados na mesma dimensão, admissional.
 		for (int i = 0; i < dataByProperties.size(); i++) {
 			double average = average(i);
 			double standardDeviation = standardDeviation(i);
 			if (standardDeviation != 0d && standardDeviation != Double.NaN)
-				for (Tuple t : tuples) {
+				for (Example t : tuples) {
 					double value = (t.getValue(i) - average)
 							/ standardDeviation;
 					t.adjustValue(i, value);
@@ -62,7 +63,7 @@ public class Data {
 				.size()]);
 	}
 	
-	public List<Tuple> getTuples() {
+	public List<Example> getTuples() {
 		return tuples;
 	}
 
@@ -77,7 +78,7 @@ public class Data {
 			var += Math.pow(d - average, 2);
 		}
 		double n = tuples.size();
-		return Math.sqrt(var / (n));
+		return Math.sqrt(var / (n - 1));
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import br.com.bernardinelli.ann.impl.RNA;
 import br.com.bernardinelli.ann.impl.Trainable;
 import br.com.bernardinelli.ann.model.Data;
-import br.com.bernardinelli.ann.model.Tuple;
+import br.com.bernardinelli.ann.model.Example;
 
 
 public class Runner implements Trainable {
@@ -31,7 +31,7 @@ public class Runner implements Trainable {
 	}
 
 	@Override
-	public void exercise(List<Tuple> tuples) {
+	public void exercise(List<Example> tuples) {
 		List<double[]> params = tuples.stream().map(t -> {
 			 double[] temp = Arrays.copyOf(t.getValues(),t.getValues().length + 1);
 			 temp[t.getValues().length] = resultadoEsperado.get(t.getLabel());
@@ -41,8 +41,8 @@ public class Runner implements Trainable {
 	}
 
 	@Override
-	public boolean test(Tuple tupla) {
-		double[] outputs = rna.execute(tupla.getValues());
+	public boolean test(Example tupla) {
+		double[] outputs = rna.apresentacao(tupla.getValues());
 		double higherValue = outputs[0];
 		int higherIndex = 0;
 		for (int i = 1; i < outputs.length; i++) {

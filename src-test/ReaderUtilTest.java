@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.bernardinelli.ann.model.Tuple;
+import br.com.bernardinelli.ann.model.Example;
 import br.com.bernardinelli.ann.util.ReaderUtil;
 
 public class ReaderUtilTest {
@@ -34,7 +34,7 @@ public class ReaderUtilTest {
 
 	@Test
 	public void wellFormatedFileTest() throws IOException {
-		Collection<Tuple> tuples = ReaderUtil.readTupleFromFile(wellFormatedFile);
+		Collection<Example> tuples = ReaderUtil.readTupleFromFile(wellFormatedFile);
 		assertEquals(2, tuples.size());
 	}
 	

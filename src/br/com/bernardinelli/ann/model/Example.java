@@ -3,16 +3,16 @@ package br.com.bernardinelli.ann.model;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class Tuple implements Serializable, Cloneable{
+public class Example implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 8335526777433322683L;
 
 	private double[] properties;
 	private String label;
 
-	private Tuple(){};
+	private Example(){};
 	
-	public Tuple(String label, double... params) {
+	public Example(String label, double... params) {
 		properties = params;
 		this.label = label;
 	}
@@ -37,13 +37,13 @@ public class Tuple implements Serializable, Cloneable{
 		return properties.length;
 	}
 	
-	public static Tuple parseTuple(String label, double... params){
-		return new Tuple(label, params);
+	public static Example parseTuple(String label, double... params){
+		return new Example(label, params);
 	}
 
 	@Override
-	public Tuple clone() {
-		Tuple tuple = new Tuple();
+	public Example clone() {
+		Example tuple = new Example();
 		tuple.properties = Arrays.copyOf(properties, properties.length);
 		tuple.label = String.format("%s", label);
 		return tuple;
@@ -66,7 +66,7 @@ public class Tuple implements Serializable, Cloneable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tuple other = (Tuple) obj;
+		Example other = (Example) obj;
 		if (label == null) {
 			if (other.label != null)
 				return false;

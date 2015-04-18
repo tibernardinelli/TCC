@@ -1,19 +1,24 @@
 package br.com.bernardinelli.ann.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
+
+import br.com.bernardinelli.ann.settings.Random;
+import br.com.bernardinelli.ann.settings.Settings;
 
 public class RNA {
 
 	private LinkedList<Layer> layers;
+	private Map<Layer, double[]> outputs;
 
 	public RNA(int inputNumber, int... layerNodeDefinition) {
 		this.layers = new LinkedList<Layer>();
-
-		Random rnd = new Random();
+		this.outputs = new HashMap<Layer, double[]>();
+		Random rnd = Settings.getInstance().getRandom();
 
 		this.layers.add(new Layer(rnd, inputNumber, layerNodeDefinition[0]));
 		for (int i = 1; i < layerNodeDefinition.length; i++) {
@@ -22,9 +27,11 @@ public class RNA {
 		}
 	}
 
-	public double[] execute(double[] inputs) {
+	//TODO renomear
+	public double[] apresentacao(double[] inputs) {
 		for (Layer layer : layers) {
 			inputs = layer.execute(inputs);
+			outputs.put(layer, inputs);
 		}
 		return inputs;
 	}
@@ -38,7 +45,7 @@ public class RNA {
 			Arrays.fill(expectedResults, 0d);
 			expectedResults[new Double(expectedResult).intValue()] = 1d;
 
-			double[] output = execute(Arrays.copyOfRange(input, 0,
+			double[] output = apresentacao(Arrays.copyOfRange(input, 0,
 					input.length - 2));
 
 			double[] termosErro = new double[output.length];
@@ -47,11 +54,12 @@ public class RNA {
 						* (expectedResults[i] - output[i]);
 			}
 
+			double learnRate = 0.1;
 			Iterator<Layer> descendingIterator = layers.descendingIterator();
-			descendingIterator.forEachRemaining(layer -> {
-				// ajusta pesos
-					layer.normalizeWeight();
-				});
+			while(descendingIterator.hasNext()){
+				Layer layer = descendingIterator.next();
+				termosErro = layer.adjustWeight(learnRate, termosErro);
+			}
 		}
 	}
 }
