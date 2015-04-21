@@ -35,13 +35,14 @@ public class Runner implements Trainable {
 		List<double[]> params = tuples.stream().map(t -> {
 			 double[] temp = Arrays.copyOf(t.getValues(),t.getValues().length + 1);
 			 temp[t.getValues().length] = resultadoEsperado.get(t.getLabel());
-			return t.getValues();
+			return temp;
 		}).collect(Collectors.toList());
 		rna.exercise(params);
 	}
 
 	@Override
 	public boolean test(Example tupla) {
+
 		double[] outputs = rna.apresentacao(tupla.getValues());
 		double higherValue = outputs[0];
 		int higherIndex = 0;
@@ -52,7 +53,10 @@ public class Runner implements Trainable {
 			}
 		}
 
-		return tupla.getLabel() == data.getPossibleResults()[higherIndex];
+//		System.out.println(String.format("Exercicio: %s; Experado: %s; Saída: %s;", Arrays.toString(tupla.getValues()),
+//				data.getPossibleResults()[higherIndex], tupla.getLabel()));
+		
+		return tupla.getLabel().equals(data.getPossibleResults()[higherIndex]);
 
 	}
 

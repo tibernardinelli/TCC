@@ -16,6 +16,7 @@ public class Settings {
 	}
 
 	private Random random;
+	private boolean normalizeWeight;
 
 	public Random getRandom() {
 		if (random == null)
@@ -26,4 +27,14 @@ public class Settings {
 	public void setRandom(Random random) {
 		this.random = random;
 	}
+
+	public boolean isNormalizeWeight() {
+		return normalizeWeight;
+	}
+
+	public void setNormalizeWeight(boolean normalizeWeight) {
+		this.normalizeWeight = normalizeWeight;
+	}
+	
+	
 }

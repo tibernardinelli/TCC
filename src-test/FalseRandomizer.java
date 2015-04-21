@@ -1,6 +1,6 @@
 
 
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import br.com.bernardinelli.ann.settings.Random;
@@ -10,7 +10,7 @@ public class FalseRandomizer implements Random {
 
 	private Double[] doublesArray;
 
-	private Queue<Double> doubles = new PriorityQueue<Double>();
+	private Queue<Double> doubles = new LinkedList<Double>();
 
 	public FalseRandomizer(Double ... params) {
 		doublesArray = params;
@@ -27,7 +27,7 @@ public class FalseRandomizer implements Random {
 		// TODO Auto-generated method stub
 		if (doubles.size() == 0)
 			init();
-		return doubles.peek();
+		return doubles.poll();
 	}
 
 }

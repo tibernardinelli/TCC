@@ -1,5 +1,7 @@
 package br.com.bernardinelli.ann.input;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import br.com.bernardinelli.ann.impl.Trainable;
@@ -14,15 +16,27 @@ public class Holdout implements ModelValidationTechnique {
 		List<Example> subListExercise = tuples.subList(size, tuples.size() - 1);
 
 		int ok;
+		int acertividade = 0; 
+		int execucoes = 0;
+		Instant inicio = Instant.now();
 		do {
+			execucoes ++;
 			ok = 0;
 			trainable.exercise(subListExercise);
+			
 			for (Example tupla : subListTest) {
-				if (trainable.test(tupla))
+				boolean test = trainable.test(tupla);
+				if (test)
 					ok++;
 			}
+			
 			//gravar os valores de erro ;
-		} while ((ok * 100) / subListTest.size() > 90);
+			int temp = (ok * 100) / subListTest.size();
+			if (temp != acertividade || execucoes % 1000 == 0)
+				System.out.println(String.format("Acertividade de %d%% em %d apresentações", temp, execucoes));
+			acertividade = temp;
+		} while (acertividade < 90);
+		System.out.println(Duration.between(inicio, Instant.now()));
 	}
 
 }

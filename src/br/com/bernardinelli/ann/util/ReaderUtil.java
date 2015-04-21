@@ -21,7 +21,7 @@ public abstract class ReaderUtil {
 							return null;
 						String[] innerSplitedLine = line.split(",");
 						int args = innerSplitedLine.length - 1;
-						if (args >= 2)
+						if (args <= 2)
 							throw new IllegalArgumentException();
 						double[] params = new double[args];
 						for (int i = 0; i < args; i++) {

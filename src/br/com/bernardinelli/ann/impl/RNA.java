@@ -22,12 +22,11 @@ public class RNA {
 
 		this.layers.add(new Layer(rnd, inputNumber, layerNodeDefinition[0]));
 		for (int i = 1; i < layerNodeDefinition.length; i++) {
-			this.layers.add(new Layer(rnd, layerNodeDefinition[i - 1],
-					layerNodeDefinition[i]));
+			this.layers.add(new Layer(rnd, layerNodeDefinition[i - 1], layerNodeDefinition[i]));
 		}
 	}
 
-	//TODO renomear
+	// TODO renomear
 	public double[] apresentacao(double[] inputs) {
 		for (Layer layer : layers) {
 			inputs = layer.execute(inputs);
@@ -45,18 +44,19 @@ public class RNA {
 			Arrays.fill(expectedResults, 0d);
 			expectedResults[new Double(expectedResult).intValue()] = 1d;
 
-			double[] output = apresentacao(Arrays.copyOfRange(input, 0,
-					input.length - 2));
+			double[] output = apresentacao(Arrays.copyOfRange(input, 0, input.length - 1));
+
+//			System.out.println(String.format("Exercicio: %s; Experado: %s; Saída: %s;", Arrays.toString(input),
+//					Arrays.toString(expectedResults), Arrays.toString(output)));
 
 			double[] termosErro = new double[output.length];
 			for (int i = 0; i < output.length; i++) {
-				termosErro[i] = output[i] * (1 - output[i])
-						* (expectedResults[i] - output[i]);
+				termosErro[i] = output[i] * (1 - output[i]) * (expectedResults[i] - output[i]);
 			}
 
 			double learnRate = 0.1;
 			Iterator<Layer> descendingIterator = layers.descendingIterator();
-			while(descendingIterator.hasNext()){
+			while (descendingIterator.hasNext()) {
 				Layer layer = descendingIterator.next();
 				termosErro = layer.adjustWeight(learnRate, termosErro);
 			}
